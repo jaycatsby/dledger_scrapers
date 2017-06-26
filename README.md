@@ -6,5 +6,8 @@ See requirements.text for the full list of modules to run the program. There are
 ```
 pip install r- /path/to/requirements.text
 ```
+Although this will install all the necessary modules to run either kresge-scraper.py/ford-scraper.py, running the scraper for Kresge Foundation will require either [Chrome WebDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) or [PhantomJS WebDriver](http://phantomjs.org/download.html).
+For using Chrome: uncomment Line 27 in kresge-scraper.py
+For using PhantomJS: uncomment Line 28 in kresge-scraper.py as well as Lines 22-26 for spoofing bot headers.
 
 ## Run
