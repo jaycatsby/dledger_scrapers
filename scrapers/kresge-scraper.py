@@ -15,8 +15,11 @@ from selenium.common.exceptions import ElementNotVisibleException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 MAIN_URL = 'http://kresge.org/grants'
-DL_ORGS = os.path.join(os.pardir+'/ledger-db','organizations.csv')
-DL_GRANTS = os.path.join(os.pardir+'/ledger-db','grants.csv')
+# DL_ORGS = os.path.join(os.pardir+'/ledger-db','organizations.csv')
+# DL_GRANTS = os.path.join(os.pardir+'/ledger-db','grants.csv')
+PHANTOM_DRIVER = os.path.join(os.pardir+'/node_modules/bin','phantomjs.exe')
+CHROME_DRIVER = os.path.join(os.pardir+'/node_modules/bin','chromedriver.exe')
+
 
 def init_driver(*args, **kwargs):
     dcap = dict(DesiredCapabilities.PHANTOMJS)
@@ -24,15 +27,15 @@ def init_driver(*args, **kwargs):
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
         "(KHTML, like Gecko) Chrome/15.0.87"
     )
-    driver = webdriver.Chrome() ### To use GUI Web Driver through Google Chrome
-    # driver = webdriver.PhantomJS()
+    # driver = webdriver.Chrome(CHROME_DRIVER) ### To use GUI Web Driver through Google Chrome
+    driver = webdriver.PhantomJS(PHANTOM_DRIVER)
     driver.set_window_size(1400,1000)
     driver.get("http://kresge.org/grants?f[0]=field_programs%3A1297")
     return driver ### Returns the main landing page for the offender search form with Search by GDC ID displayed
 
 def kresgeDetails(grants_page):
-    grants_driver =webdriver.Chrome()
-    # grants_driver = webdriver.PhantomJS()
+    # grants_driver =webdriver.Chrome(CHROME_DRIVER)
+    grants_driver = webdriver.PhantomJS(PHANTOM_DRIVER)
     grants_driver.set_window_size(1400,1000)
     grants_driver.get(grants_page) # Opens a new webdriver object for grant's profile page
     grants_body = grants_driver.find_element_by_class_name('field-type-text-with-summary')
@@ -172,8 +175,8 @@ def main():
       '--proxy-type=http',
       '--ignore-ssl-errors=true'
       ]
-   # driver = init_driver(service_args=service_args)
-   driver = init_driver()
+   driver = init_driver(service_args=service_args)
+   # driver = init_driver()
    data_rows = scrapeKresge(driver)
    driver.close()
 
