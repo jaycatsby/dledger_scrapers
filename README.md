@@ -1,7 +1,9 @@
 # Detroit Ledger - Grant Scrapers
+## Overview
 For retrieving grant data from websites of private foundations in Detroit. Currently, there are three projects: a scraper for [Ford Foundation](https://www.fordfoundation.org/work/our-grants/grants-database/grants-all), [Kresge Foundation](http://kresge.org/grants), and [Blue Cross Blue Shield of Michigan (BCBSM)](http://www.bcbsm.com/foundation/grant-programs/overview.html). Since Ford Foundation allows downloadable CSVs, the scraper bot for Ford focuses on opening the CSV url of grants and filtering the list by checking whether the grantee is alreayd in Detroit Ledger's database, grantee's name has the word ``Detroit`` in it, and/or ``Detroit`` is listed under the grant's `` Benefiting Locations``. Alternatively, ``matcher-standalone.html`` can be used to sort out the matches. Meanwhile, scrapers for Kresge Foundation and BCBSM currently use a pre-selected search field url to specifically target grants with ``Detroit`` as their ``Program`` field, and ``2016`` as ``Year`` for BCBSM.
 
 
+## Results
 Organization | Year | Status
 --- | --- | ---
 *Carls Foundation* | 2012 | **ENTERED**
@@ -13,15 +15,32 @@ Organization | Year | Status
 *DTE Energy Foundation* | 2014 | **ENTERED**
 *DTE Energy Foundation* | 2015 | **ENTERED**
 *Ethel and James Flinn Foundation* | 2014 | **ENTERED**
-*Ford Foundation* | 2014 | **SCRAPED & ENTERED**
-*Ford Foundation* | 2015 | **SCRAPED**
-*Ford Foundation* | 2016 | **SCRAPED**
-*Ford Foundation* | 2017 | **SCRAPED**
+*Ford Foundation* | 2006 | **SCRAPED (n=35)**
+*Ford Foundation* | 2007 | **SCRAPED (n=50)**
+*Ford Foundation* | 2008 | **SCRAPED (n=38)**
+*Ford Foundation* | 2009 | **SCRAPED (n=71)**
+*Ford Foundation* | 2010 | **SCRAPED (n=59)**
+*Ford Foundation* | 2011 | **SCRAPED (n=55)**
+*Ford Foundation* | 2012 | **SCRAPED (n=11)**
+*Ford Foundation* | 2013 | **SCRAPED (n=54)**
+*Ford Foundation* | 2014 | **SCRAPED (n=55) & ENTERED (n=32)**
+*Ford Foundation* | 2015 | **SCRAPED (n=64)**
+*Ford Foundation* | 2016 | **SCRAPED (n=65)**
+*Ford Foundation* | 2017 | **SCRAPED (n=7)**
+*Kresge Foundation* | 2009 | **SCRAPED (n=70)**
+*Kresge Foundation* | 2010 | **SCRAPED (n=81)**
+*Kresge Foundation* | 2011 | **SCRAPED (n=71)**
+*Kresge Foundation* | 2012 | **SCRAPED (n=136)**
+*Kresge Foundation* | 2013 | **SCRAPED (n=78)**
+*Kresge Foundation* | 2014 | **SCRAPED (n=123)**
+*Kresge Foundation* | 2015 | **SCRAPED (n=79)**
+*Kresge Foundation* | 2016 | **SCRAPED (n=58)**
 *Max M. & Marjorie S. Fisher Foundation* | 2015 | **ENTERED**
 *Skillman Foundation* | 2014 | **ENTERED**
 *Skillman Foundation* | 2015 | **ENTERED**
 *William Davidson Foundation* | 2014 | **ENTERED**
 *William Davidson Foundation* | 2015 | **ENTERED**
+
 
 ## Install
 See requirements.txt for the full list of modules to run the program. There are only three modules to manually install in your Python virtual environment:
@@ -38,6 +57,7 @@ pip install r- /path/to/requirements.txt
 Although this will install all the necessary modules to run bcbsm-scraper.py/kresge-scraper.py/ford-scraper.py, running the scraper for Kresge Foundation will require either [Chrome WebDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) or [PhantomJS WebDriver](http://phantomjs.org/download.html).
 For using Chrome: uncomment Lines 30 & 37 in kresge-scraper.py, uncomment Line 26 in bcbsm-scraper.py
 For using PhantomJS: uncomment Line 28 in kresge-scraper.py as well as Lines 22-26 for spoofing bot headers (same for bcbsm-scraper.py).
+
 
 ## Run
 ### Kresge Foundation
@@ -100,16 +120,11 @@ python3 scrpaers/ford-scraper.py
   * This could be expanded to other fields such as location, grant types
 
 
-
-## Results
-### kresge-scraper.py
-See the [Google Doc](https://docs.google.com/document/d/1tJ66xI3HJXqKtJv-YNIxpeKRwGVJrQxn-N3NlbUSVjA/edit?usp=sharing)
-
-### bcbsm-scraper.py
-This was purely for making data retrieval and entry more efficient for Detroit Ledger as to include individual research grant data
-
 ## Troubleshooting
 - Note(s) for ``kresge-scraper.py``:
   * [CSV Output] Although number of grants matched up for year 2014 between the online database and IRS Form 990, there may be more refined method of finding list of relevant grant data
 - Note(s) for ``ford-scraper.py``:
   * [CSV Download URL] For some reason, all the column headers have a blank before label (e.g. `` ColumnName``). This is why I intentionally included the empty spaces in Line 39 while reading in the CSV as ``pandas DataFrame`` object.
+- ``NoSuchElementException`` while running the scrapers:
+  * This is usually the case when the HTML layout changed such that ``xpath`` and/or ``css`` names, or ``HTML elements`` shifted
+  * During such instances, use Google Developer Tool ('Inspect') to re-calibrate the scrapers
